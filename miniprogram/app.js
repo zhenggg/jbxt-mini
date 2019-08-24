@@ -14,6 +14,14 @@ App({
         this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
       }
     })
+
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      }
+    })
+
   },
   globalData: {
     ColorList: [{
@@ -91,6 +99,14 @@ App({
         name: 'white',
         color: '#ffffff'
       },
-    ]
+    ],
+    userInfo: {name:'刘飞非',openid:'222'},
+    jbxtInfo: {
+      date:'2019-08-24',
+      jb: {name:'刘飞非',openid:'111'},
+      dp: {name:'刘飞非',openid:'222'},
+      qw: {name:'刘飞非',openid:'333'},
+      dd: {name:'刘飞非',openid:'444'},
+    },
   }
 })

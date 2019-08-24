@@ -1,0 +1,16 @@
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">关于</view></cu-custom>
+<view class='margin-xl bg-white padding-xl radius shadow-lg'>
+  <view class='text-center margin-bottom text-lg  text-grey'>选择日期</view>
+  <view class='text-content'>
+    <form>
+    <view class="cu-form-group">
+      <view class="title">日期选择</view>
+      <picker mode="date" value="{{date}}" start="2018-08-01" end="2025-09-01" bindchange="DateChange">
+        <view class="picker">
+          {{date}}
+        </view>
+      </picker>
+    </view>
+    </form>
+  </view>
+</view>

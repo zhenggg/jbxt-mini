@@ -1,0 +1,24 @@
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">关于</view></cu-custom>
+<view class='margin-xl bg-white padding-xl radius shadow-lg'>
+  <view class='text-center margin-bottom text-lg  text-grey'>设置值班类型</view>
+  <view class='text-content'>
+    <checkbox-group>
+      <view class="cu-form-group margin-top" >
+        <view class="title">{{items.jb.name}}</view>
+        <checkbox value="{{items.jb.value}}" class="{{items.jb.checked?'checked':''}}" checked="{{items.jb.checked?true:false}}"></checkbox>
+      </view>
+      <view class="cu-form-group margin-top" >
+        <view class="title">{{items.dp.name}}</view>
+        <checkbox value="{{items.dp.value}}" class="{{items.dp.checked?'checked':''}}" checked="{{items.dp.checked?true:false}}"></checkbox>
+      </view>
+      <view class="cu-form-group margin-top" >
+        <view class="title">{{items.qw.name}}</view>
+        <checkbox value="{{items.qw.value}}" class="{{items.qw.checked?'checked':''}}" checked="{{items.qw.checked?true:false}}"></checkbox>
+      </view>
+      <view class="cu-form-group margin-top" >
+        <view class="title">{{items.dd.name}}</view>
+        <checkbox value="{{items.dd.value}}" class="{{items.dd.checked?'checked':''}}" checked="{{items.dd.checked?true:false}}"></checkbox>
+      </view>
+    </checkbox-group>
+  </view>
+</view>
