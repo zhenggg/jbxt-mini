@@ -1,0 +1,67 @@
+<scroll-view scroll-y class="scrollPage">
+    <view class="UCenter-bg" style="background-image: url(/images/img.png);">
+        <image src="/images/logo.png" class="png" mode="widthFix"></image>
+        <view class="text-xl">淮安市公安局指挥中心
+            <text class="text-df"></text>
+        </view>
+        <view class="margin-top-sm">
+            <text>技保小程序</text>
+        </view>
+        <image src="/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
+    </view>
+
+    <view class="cu-modal {{modalName=='DialogModal1'?'show':''}}">
+        <view class="cu-dialog">
+            <view class="cu-bar bg-white justify-end">
+                <view class="content"></view>
+                <view class="action" bindtap="hideModal">
+                    <text class="cuIcon-close text-red"></text>
+                </view>
+            </view>
+            <view class="padding-xl">
+                <view class="cu-form-group align-start">
+                    <view class="title">{{modelTitle}}</view>
+                    <textarea maxlength="-1" disabled="disabled" placeholder="{{modelPlaceholder}}"></textarea>
+                </view>
+            </view>
+            <view class="cu-bar bg-white justify-center">
+                <view class="action">
+                    <button class="cu-btn bg-green" bindtap="sign" data-id="{{modelId}}">签名</button>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view wx:for="{{jobsInfo}}" wx:key>
+        <view wx:if="{{item.jb == userJobs.jb || item.dp == userJobs.dp || item.qw == userJobs.qw || item.dd == userJobs.dd}}">
+            <view class="cu-list menu sm-border card-menu margin-top" bindtap="showModal" data-target="DialogModal1"
+                  data-time_description="{{item.time_description}}" data-name="{{item.name}}" data-id="{{item.id}}">
+                <view class="cu-item arrow">
+                    <view class="content padding-tb-sm">
+                        <view>
+                            {{item.time_description}}
+                        </view>
+                        <view class="text-gray text-sm">
+                            {{item.name}}
+                        </view>
+                    </view>
+                    <view class="action">
+                        <view wx:if="{{item.jb==1}}" class="cu-avatar radius margin-left sm bg-green">
+                            <text>技</text>
+                        </view>
+                        <view wx:if="{{item.dp==1}}" class="cu-avatar radius margin-left sm">
+                            <text>屏</text>
+                        </view>
+                        <view wx:if="{{item.qw==1}}" class="cu-avatar radius margin-left sm">
+                            <text>勤</text>
+                        </view>
+                        <view wx:if="{{item.dd==1}}" class="cu-avatar radius margin-left sm">
+                            <text>点</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="cu-tabbar-height"></view>
+</scroll-view>

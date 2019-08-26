@@ -5,7 +5,7 @@
       <text class="text-df"></text>
     </view>
     <view class="margin-top-sm">
-      <text>{{date}}</text>
+      <text>{{jbxtInfo.date}}</text>
     </view>
     <image src="/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>

@@ -100,13 +100,16 @@ App({
         color: '#ffffff'
       },
     ],
-    userInfo: {name:'刘飞非',openid:'222'},
+    userInfo: {name:'刘飞',openid:'222'},
     jbxtInfo: {
       date:'2019-08-24',
-      jb: {name:'刘飞非',openid:'111'},
-      dp: {name:'刘飞非',openid:'222'},
-      qw: {name:'刘飞非',openid:'333'},
-      dd: {name:'刘飞非',openid:'444'},
+      jb: {name:'刘飞',openid:'111'},
+      dp: {name:'刘飞',openid:'222'},
+      qw: {name:'刘飞',openid:'333'},
+      dd: {name:'刘飞',openid:'444'},
     },
+    userJobs:{
+      jb:1,dp:1,qw:1,dd:1
+    }
   }
 })

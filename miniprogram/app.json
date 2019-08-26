@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/jobs/home/home",
     "pages/basics/home/home",
     "pages/basics/layout/layout",
     "pages/basics/button/button",
@@ -41,7 +42,7 @@
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",
-    "navigationBarTitleText": "Color UI",
+    "navigationBarTitleText": "技保小程序",
     "navigationStyle": "custom",
     "navigationBarTextStyle": "white"
   },
