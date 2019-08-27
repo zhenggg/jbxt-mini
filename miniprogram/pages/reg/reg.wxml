@@ -1,0 +1,18 @@
+<cu-custom bgColor="bg-gradual-green" isBack="{{true}}"><view slot="backText">返回</view><view slot="content">关于</view></cu-custom>
+<view class='margin-xl bg-white padding-xl radius shadow-lg'>
+  <view class='text-center margin-bottom text-lg  text-grey'>选择日期</view>
+  <view class='text-content'>
+    <form>
+    <view class="cu-form-group">
+      <view class="title">微信绑定值班人员</view>
+
+      <picker bindchange="PickerChange" value="{{index}}" range="{{pickerUsers}}">
+        <view class="picker">
+          {{index?pickerUsers[index]:'禁止换行，超出容器部分会以 ... 方式截断'}}
+        </view>
+      </picker>
+
+    </view>
+    </form>
+  </view>
+</view>

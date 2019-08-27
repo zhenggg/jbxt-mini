@@ -16,18 +16,38 @@ Page({
     submit: function (e) {
         var values = e.detail.value;
         console.log('checkbox发生change事件，携带value值为：',  values)
+
+        //调用更新duty云函数 where(date,openid)
+        wx.cloud.callFunction({
+            name: 'duty',
+            data: {
+                date:app.globalData.jbxtInfo.date,
+                posts:values
+            },
+            success: res => {
+                console.log('[云函数] [duty]: ')
+                wx.showToast({
+                    title: '成功',
+                    icon: 'success',
+                    duration: 2000
+                })
+            },
+            fail: err => {
+                console.error('[云函数] [login] 调用失败', err)
+            }
+        })
     },
     onLoad: function () {
-        if (this.data.userInfo.openid == this.data.jbxtInfo.jb.openid) {
+        if (this.data.adminUserInfo.openid == this.data.jbxtInfo.jb.openid) {
             this.data.items.jb.checked = true;
         }
-        if (this.data.userInfo.openid == this.data.jbxtInfo.dp.openid) {
+        if (this.data.adminUserInfo.openid == this.data.jbxtInfo.dp.openid) {
             this.data.items.dp.checked = true;
         }
-        if (this.data.userInfo.openid == this.data.jbxtInfo.qw.openid) {
+        if (this.data.adminUserInfo.openid == this.data.jbxtInfo.qw.openid) {
             this.data.items.qw.checked = true;
         }
-        if (this.data.userInfo.openid == this.data.jbxtInfo.dd.openid) {
+        if (this.data.adminUserInfo.openid == this.data.jbxtInfo.dd.openid) {
             this.data.items.dd.checked = true;
         }
         this.setData({

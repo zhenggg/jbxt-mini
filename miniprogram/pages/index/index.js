@@ -7,6 +7,11 @@ Page({
       PageCur: e.currentTarget.dataset.cur
     })
   },
+
+  onLoad: function() {
+
+  },
+
   onShareAppMessage() {
     return {
       title: '技保小程序',

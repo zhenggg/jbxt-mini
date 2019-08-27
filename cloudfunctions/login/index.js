@@ -22,10 +22,24 @@ exports.main = (event, context) => {
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）
   const wxContext = cloud.getWXContext()
 
+  //判断本次openid 是否已经写入数据库
+
+  //没有插入到云数据库 并 跳到reg页面
+
+  //有返回 adminUserInfo(date)
+  if (false) {
+    return {
+      //is_reg:false,
+      openid: wxContext.OPENID,
+    }
+  }
   return {
     event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
+    //is_reg:true,
+    adminUserInfo:{
+      openid: wxContext.OPENID,
+      appid: wxContext.APPID,
+      unionid: wxContext.UNIONID
+    },
   }
 }
