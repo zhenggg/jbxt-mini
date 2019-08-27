@@ -38,7 +38,8 @@
     "pages/plugin/verticalnav/verticalnav",
     "pages/more/home/home",
     "pages/more/date/date",
-    "pages/more/duty/duty"
+    "pages/more/duty/duty",
+    "pages/reg/reg"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

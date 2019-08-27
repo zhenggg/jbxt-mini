@@ -1,45 +1,42 @@
-// 云函数模板
-// 部署：在 cloud-functions/login 文件夹右击选择 “上传并部署”
-
 const cloud = require('wx-server-sdk')
 
-// 初始化 cloud
 cloud.init()
 
-/**
- * 这个示例将经自动鉴权过的小程序用户 openid 返回给小程序端
- * 
- * event 参数包含小程序端调用传入的 data
- * 
- */
-exports.main = (event, context) => {
-  console.log(event)
-  console.log(context)
+const db = cloud.database()
+const _ = db.command
 
-  // 可执行其他自定义逻辑
-  // console.log 的内容可以在云开发云函数调用日志查看
+exports.main = async (event, context) => {
+  console.log('zhenggg-login:s')
+  let {OPENID} = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
 
-  // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）
-  const wxContext = cloud.getWXContext()
-
-  //判断本次openid 是否已经写入数据库
-
-  //没有插入到云数据库 并 跳到reg页面
+  const user_exist = await db.collection('users').where({
+    openid: OPENID,
+  }).count()
+  const total = user_exist.total
+  console.log('zhenggg-login:' + total)
 
   //有返回 adminUserInfo(date)
-  if (false) {
+  if (user_exist.total == 0) {
+    //没有插入到云数据库 并 跳到reg页面
+    try {
+      await db.collection('todos').add({
+        // data 字段表示需新增的 JSON 数据
+        data: {
+          openid: OPENID,
+        }
+      })
+    } catch(e) {
+      console.error(e)
+    }
     return {
-      //is_reg:false,
-      openid: wxContext.OPENID,
+      is_reg:false,
+      openid: OPENID,
     }
   }
   return {
-    event,
-    //is_reg:true,
+    is_reg:true,
     adminUserInfo:{
-      openid: wxContext.OPENID,
-      appid: wxContext.APPID,
-      unionid: wxContext.UNIONID
+      openid: OPENID,
     },
   }
 }

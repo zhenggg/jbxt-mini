@@ -36,7 +36,7 @@ App({
             success: res => {
                 console.log('[云函数] [login] user openid: ', res.result.is_reg)
 
-                if (is_reg) {
+                if (res.result.is_reg) {
                     this.globalData.adminUserInfo = res.result.adminUserInfo
                 } else {
                     this.globalData.adminUserInfo.openid = res.result.openid

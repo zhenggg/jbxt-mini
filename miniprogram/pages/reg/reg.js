@@ -19,6 +19,9 @@ Page({
       }
     })
   },
+  submit() {
+
+  },
   pageBack() {
     wx.navigateBack({
       delta: 1
