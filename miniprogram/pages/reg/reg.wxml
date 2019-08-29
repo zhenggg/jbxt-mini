@@ -6,13 +6,15 @@
     <view class="cu-form-group">
       <view class="title">微信绑定值班人员</view>
 
-      <picker bindchange="PickerChange" value="{{index}}" range="{{pickerUsers}}">
+      <picker bindchange="PickerChange" value="{{index}}" range-key="name" range="{{pickerUsers}}">
         <view class="picker">
-          {{index?pickerUsers[index]:'禁止换行，超出容器部分会以 ... 方式截断'}}
+          {{index?pickerUsers[index].name:'请选择'}}
         </view>
       </picker>
-
     </view>
+    <view class="padding flex flex-direction">
+  <button bindtap="reg_user" class="cu-btn bg-green lg">确认绑定</button>
+</view>
     </form>
   </view>
 </view>
