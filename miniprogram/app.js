@@ -29,41 +29,10 @@ App({
             }
         })
 
-        // 登录
-        wx.cloud.callFunction({
-            name: 'login',
-            data: {userInfo:this.globalData.userInfo},
-            success: res => {
-                console.log('[云函数] [login] user openid: ', res.result.is_reg)
-
-                if (res.result.is_reg) {
-                    this.globalData.adminUserInfo = res.result.adminUserInfo
-                } else {
-                    this.globalData.adminUserInfo.openid = res.result.openid
-                    wx.navigateTo({
-                        url: '../reg/reg',
-                    })
-                }
-            },
-            fail: err => {
-                console.error('[云函数] [login] 调用失败', err)
-            }
-        })
-
-        //获取duty
-        const db = wx.cloud.database()
-        db.collection('dutys').where({
-            date: this.globalData.adminUserInfo.date
-        }).get({
-            success: function(res) {
-                console.log(res.data)
-                //jbxtInfo
-
-                //userJobs
-            }
-        })
+        
     },
     globalData: {
+        use_date:'',
         adminUserInfo:{ avatarUrl: './user-unlogin.png',openid:'',name:'',date:''},
         userInfo: {name: '刘飞'},
         jbxtInfo: {

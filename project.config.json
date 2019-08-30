@@ -8,6 +8,7 @@
 		"minified": true,
 		"newFeature": true,
 		"coverView": true,
+		"nodeModules": true,
 		"autoAudits": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -17,10 +18,10 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
-		"nodeModules": true
+		"enhance": true
 	},
 	"appid": "wx41e537f1eb90eb57",
-	"projectname": "jbxt-mini",
+	"projectname": "jbxt",
 	"libVersion": "2.8.0",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},

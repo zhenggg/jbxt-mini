@@ -4,10 +4,12 @@ cloud.init()
 
 const db = cloud.database()
 const _ = db.command
-
-exports.main = async (event, context) => {
+const $ = db.command.aggregate
+exports.main = async(event, context) => {
   console.log('zhenggg-login:s')
-  let {OPENID} = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
+  let {
+    OPENID
+  } = cloud.getWXContext()
 
   const user_exist = await db.collection('users').where({
     openid: OPENID,
@@ -17,26 +19,29 @@ exports.main = async (event, context) => {
 
   //有返回 adminUserInfo(date)
   if (user_exist.total == 0) {
-    //没有插入到云数据库 并 跳到reg页面
-    try {
-      await db.collection('todos').add({
-        // data 字段表示需新增的 JSON 数据
-        data: {
-          openid: OPENID,
-        }
-      })
-    } catch(e) {
-      console.error(e)
-    }
     return {
-      is_reg:false,
+      is_reg: false,
       openid: OPENID,
     }
   }
-  return {
-    is_reg:true,
-    adminUserInfo:{
+  const user = await db.collection('users')
+  .aggregate()
+    .project({
+      formatDate: $.dateToString({
+        date: '$now_date',
+        format: '%Y-%m-%d',
+        timezone: 'Asia/Shanghai'
+      })
+    }).where({
       openid: OPENID,
-    },
+    })
+    .end()
+  // const user = await db.collection('users').where({
+  //   openid: OPENID,
+  // }).get()
+
+  return {
+    is_reg: true,
+    adminUserInfo: user
   }
 }
