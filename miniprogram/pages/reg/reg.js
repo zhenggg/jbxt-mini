@@ -10,12 +10,8 @@ Page({
   onLoad: function () {
     //获取pickerUsers
     const db = wx.cloud.database()
-    let res = db.collection('users')
-    .aggregate()
-    .project({
-        openid: 1,
-        name: 1
-      }).end().then(res => {
+    let res = db.collection('users').get()
+    .then(res => {
         console.log(res)
         console.log(res.list)
         this.setData({
