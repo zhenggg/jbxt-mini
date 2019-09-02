@@ -12,22 +12,22 @@
 
   <view class="padding flex text-center text-grey bg-white shadow-warp">
     <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xl text-green">{{jbxtInfo.jb.name}}</view>
+      <view class="text-xl text-green">{{jbxtInfo[0].name}}</view>
       <view class="margin-top-sm">
          技保</view>
     </view>
     <view class="flex flex-sub flex-direction solid-right">
-      <view class="text-xl text-green">{{jbxtInfo.dp.name}}</view>
+      <view class="text-xl text-green">{{jbxtInfo[1].name}}</view>
       <view class="margin-top-sm">
         大屏</view>
     </view>
     <view class="flex flex-sub flex-direction">
-      <view class="text-xl text-green">{{jbxtInfo.qw.name}}</view>
+      <view class="text-xl text-green">{{jbxtInfo[2].name}}</view>
       <view class="margin-top-sm">
          勤务</view>
     </view>
     <view class="flex flex-sub flex-direction">
-      <view class="text-xl text-green">{{jbxtInfo.dd.name}}</view>
+      <view class="text-xl text-green">{{jbxtInfo[3].name}}</view>
       <view class="margin-top-sm">
         点调</view>
     </view>

@@ -1,36 +1,61 @@
 const cloud = require('wx-server-sdk')
-
 cloud.init()
 
 const db = cloud.database()
 const _ = db.command
 
 exports.main = async (event, context) => {
-  console.log('zhenggg-login:s')
+
   let { OPENID } = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
 
   const user_exist = await db.collection('users').where({
     openid: OPENID,
   }).count()
   const total = user_exist.total
-  console.log('zhenggg-login:' + total)
+  if (user_exist.total == 0) {
+
+   
+  } else {
+    const user = await db.collection('users').where({
+      openid: OPENID,
+    }).get()
+
+    let date = user.data[0].now_date,
+  }
+
+  const user_date_dutys = await db.collection('dutys').where({
+    date: date
+  }).get()
+
+  let jbxtInfo = [
+    { name: '', openid: '' },//jb
+    { name: '', openid: '' },//dp
+    { name: '', openid: '' },//qw
+    { name: '', openid: '' }//dd
+  ]
+
+  if (user_date_dutys.data) {
+
+    user_date_dutys.data.forEach(function (e) {
+
+      let user = await db.collection('users').doc(e.user_id).get()
+
+      let index = e.post - 1
+
+      jbxtInfo[e.post - 1].name = user.data.name
+      jbxtInfo[e.post - 1].name = user.data.openid
+    })
+  }
 
   //有返回 adminUserInfo(date)
   if (user_exist.total == 0) {
-    //没有插入到云数据库 并 跳到reg页面
-    try {
-      await db.collection('todos').add({
-        // data 字段表示需新增的 JSON 数据
-        data: {
-          openid: OPENID,
-        }
-      })
-    } catch (e) {
-      console.error(e)
-    }
+    
     return {
       is_reg: false,
-      openid: OPENID,
+      jbxtInfo: jbxtInfo,
+      adminUserInfo: {
+        openid: OPENID,
+      },
     }
   }
 
@@ -40,10 +65,12 @@ exports.main = async (event, context) => {
 
   return {
     is_reg: true,
+    jbxtInfo: jbxtInfo,
     adminUserInfo: {
       openid: OPENID,
       date: user.data[0].now_date,
       name: user.data[0].name
     },
   }
+
 }

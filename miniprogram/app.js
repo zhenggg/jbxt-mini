@@ -1,4 +1,5 @@
 //app.js
+var until = require('/until/until.js')
 App({
   onLaunch: function () {
     if (wx.cloud) {
@@ -28,53 +29,43 @@ App({
         }
       }
     })
-
+    this.globalData.adminUserInfo.date = until.utcDateToString(date)
     // 登录
     wx.cloud.callFunction({
       name: 'login',
       data: { userInfo: this.globalData.userInfo },
       success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.is_reg)
-
-        if (res.result.is_reg) {
-          this.globalData.adminUserInfo = res.result.adminUserInfo
+        let is_reg = res.result.is_reg
+        let adminUserInfo = res.result.adminUserInfo
+        let date = res.result.date
+       //设置默认用户日期 （今日）
+        if (is_reg) {
+          this.globalData.adminUserInfo = adminUserInfo
+          this.globalData.adminUserInfo.date = until.utcDateToString(date)
         } else {
           this.globalData.adminUserInfo.openid = res.result.openid
+        }
+
+        if (!res.result.is_reg) {
+
           wx.navigateTo({
             url: '../reg/reg',
           })
         }
+
+
       },
       fail: err => {
         console.error('[云函数] [login] 调用失败', err)
       }
     })
 
-    //获取duty
-    const db = wx.cloud.database()
-    db.collection('dutys').where({
-      date: this.globalData.adminUserInfo.date
-    }).get({
-      success: function (res) {
-        console.log(res.data)
-        //jbxtInfo
 
-        //userJobs
-      }
-    })
-
-    //设置默认用户日期 （今日）
-    this.globalData.adminUserInfo.date = new Date(new Date().toLocaleDateString()).getTime()
   },
   globalData: {
     adminUserInfo: { avatarUrl: './user-unlogin.png', openid: '', name: '', date: '' },
-    userInfo: { name: '刘飞' },
-    jbxtInfo: {
-      jb: { name: '刘飞', openid: '111' },
-      dp: { name: '刘飞', openid: '222' },
-      qw: { name: '刘飞', openid: '333' },
-      dd: { name: '刘飞', openid: '444' },
-    },
+    userInfo: { name: '' },
+    jbxtInfo: [],
     userJobs: {
       jb: 1, dp: 1, qw: 1, dd: 1
     },

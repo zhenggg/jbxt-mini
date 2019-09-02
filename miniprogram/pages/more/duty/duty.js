@@ -16,26 +16,7 @@ Page({
     submit: function (e) {
         var values = e.detail.value;
         console.log('checkbox发生change事件，携带value值为：',  values)
-
-        //调用更新duty云函数 where(date,openid)
-        wx.cloud.callFunction({
-            name: 'duty',
-            data: {
-                date:app.globalData.jbxtInfo.date,
-                posts:values
-            },
-            success: res => {
-                console.log('[云函数] [duty]: ')
-                wx.showToast({
-                    title: '成功',
-                    icon: 'success',
-                    duration: 2000
-                })
-            },
-            fail: err => {
-                console.error('[云函数] [login] 调用失败', err)
-            }
-        })
+ 
     },
     onLoad: function () {
         if (this.data.adminUserInfo.openid == this.data.jbxtInfo.jb.openid) {

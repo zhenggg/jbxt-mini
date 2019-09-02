@@ -10,7 +10,9 @@ Page({
 
   onLoad:  function() {
     // 登录
-      this.callLogin();
+      //this.callLogin();
+
+
       
   },
   callLogin : function () {
@@ -22,9 +24,9 @@ Page({
       
       //获取duty
       if (res.result.adminUserInfo) {
-        getApp().globalData.use_date = res.result.adminUserInfo.data[0].now_date
+        getApp().globalData.adminUserInfo.date = res.result.adminUserInfo.data[0].now_date
       } else {
-        getApp().globalData.use_date = new Date(
+        getApp().globalData.adminUserInfo.date = new Date(
           new Date(new Date().toLocaleDateString()).getTime()
         )
       }

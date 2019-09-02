@@ -1,20 +1,19 @@
-function formatTime(date) {
-    var year = date.getFullYear()
-    var month = date.getMonth() + 1
-    var day = date.getDate()
+const moment = require('moment.min.js')
 
-    var hour = date.getHours()
-    var minute = date.getMinutes()
-    var second = date.getSeconds()
-
-    return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+function utcDateToString(date) {
+  return moment(date).add(8, 'h').format('YYYY-MM-DD');
 }
 
-function formatNumber(n) {
-    n = n.toString()
-    return n[1] ? n : '0' + n
+function timestampToDate(timestamp) {
+  var date = new Date(parseInt(timestamp));
+  var Y = date.getFullYear() + '-';
+  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+  var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
+
+  return Y + M + D;
 }
 
 module.exports = {
-    formatTime: formatTime
+  utcDateToString: utcDateToString,
+
 }
