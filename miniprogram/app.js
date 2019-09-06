@@ -28,28 +28,33 @@ App({
           })
         }
       }
-    })
-    this.globalData.adminUserInfo.date = until.utcDateToString(date)
+    });
+
+    this.initSys(until.clientDate());
+
+  },
+
+  initSys(date,navigateTo = 0) {
+    this.globalData.now_date = date;
     // 登录
     wx.cloud.callFunction({
       name: 'login',
-      data: { userInfo: this.globalData.userInfo },
+      data: { date: this.globalData.now_date },
       success: res => {
-        let is_reg = res.result.is_reg
-        let adminUserInfo = res.result.adminUserInfo
-        let date = res.result.date
-       //设置默认用户日期 （今日）
-        if (is_reg) {
-          this.globalData.adminUserInfo = adminUserInfo
-          this.globalData.adminUserInfo.date = until.utcDateToString(date)
-        } else {
-          this.globalData.adminUserInfo.openid = res.result.openid
-        }
+        console.log(res.result);
+        this.globalData.adminUserInfo = res.result.adminUserInfo;
+        this.globalData.jbxtInfo = res.result.jbxtInfo;
 
         if (!res.result.is_reg) {
 
           wx.navigateTo({
             url: '../reg/reg',
+          })
+        }
+
+        if(navigateTo) {
+          wx.navigateTo({
+            url: navigateTo,
           })
         }
 
@@ -59,13 +64,18 @@ App({
         console.error('[云函数] [login] 调用失败', err)
       }
     })
-
-
   },
+
   globalData: {
-    adminUserInfo: { avatarUrl: './user-unlogin.png', openid: '', name: '', date: '' },
+    now_date:'',
+    adminUserInfo: { avatarUrl: './user-unlogin.png', openid: '', name: ''},
     userInfo: { name: '' },
-    jbxtInfo: [],
+    jbxtInfo: [
+      {name: '', openid: ''},//jb
+      {name: '', openid: ''},//dp
+      {name: '', openid: ''},//qw
+      {name: '', openid: ''}//dd
+    ],
     userJobs: {
       jb: 1, dp: 1, qw: 1, dd: 1
     },

@@ -4,11 +4,11 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     ColorList: app.globalData.ColorList,
-    date: app.globalData.adminUserInfo.date
+    date: ''
   },
   onLoad: function() {
     this.setData({
-      date: app.globalData.adminUserInfo.date
+      date: app.globalData.now_date
     })
   },
   pageBack() {
@@ -19,8 +19,8 @@ Page({
   DateChange(e) {
     this.setData({
       date: e.detail.value
-    })
-    //todo 选择中了时间改变 app.globalData.adminUserInfo.date 和 user.now_date
+    });
+    app.initSys(e.detail.value,'/pages/index/index');
   },
 
 });

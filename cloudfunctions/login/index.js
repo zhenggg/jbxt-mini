@@ -1,76 +1,66 @@
-const cloud = require('wx-server-sdk')
-cloud.init()
+const cloud = require('wx-server-sdk');
+cloud.init();
 
-const db = cloud.database()
-const _ = db.command
+const db = cloud.database();
+const _ = db.command;
 
 exports.main = async (event, context) => {
 
-  let { OPENID } = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
+    let {OPENID} = cloud.getWXContext();// 这里获取到的 openId 和 appId 是可信的
+    let {date} = event;
 
-  const user_exist = await db.collection('users').where({
-    openid: OPENID,
-  }).count()
-  const total = user_exist.total
-  if (user_exist.total == 0) {
-
-   
-  } else {
-    const user = await db.collection('users').where({
-      openid: OPENID,
-    }).get()
-
-    let date = user.data[0].now_date,
-  }
-
-  const user_date_dutys = await db.collection('dutys').where({
-    date: date
-  }).get()
-
-  let jbxtInfo = [
-    { name: '', openid: '' },//jb
-    { name: '', openid: '' },//dp
-    { name: '', openid: '' },//qw
-    { name: '', openid: '' }//dd
-  ]
-
-  if (user_date_dutys.data) {
-
-    user_date_dutys.data.forEach(function (e) {
-
-      let user = await db.collection('users').doc(e.user_id).get()
-
-      let index = e.post - 1
-
-      jbxtInfo[e.post - 1].name = user.data.name
-      jbxtInfo[e.post - 1].name = user.data.openid
-    })
-  }
-
-  //有返回 adminUserInfo(date)
-  if (user_exist.total == 0) {
-    
-    return {
-      is_reg: false,
-      jbxtInfo: jbxtInfo,
-      adminUserInfo: {
+    const cur_user = await db.collection('users').where({
         openid: OPENID,
-      },
+    }).get();
+
+    let jbxtInfo = [
+        {name: '', openid: ''},//jb
+        {name: '', openid: ''},//dp
+        {name: '', openid: ''},//qw
+        {name: '', openid: ''}//dd
+    ];
+
+
+    const user_date_dutys = await db.collection('dutys').where({
+        date: date
+    }).get();
+
+    let dutys = user_date_dutys.data;
+
+    if (dutys !== []) {
+
+        for(var i=0,l=dutys.length;i<l;i++){
+
+            let user = await db.collection('users').doc(dutys[i].user_id).get();
+
+            let index = dutys[i].post - 1;
+            console.log(user);
+            jbxtInfo[index].name = user.data.name;
+            jbxtInfo[index].openid = user.data.openid
+
+        }
     }
-  }
 
-  const user = await db.collection('users').where({
-    openid: OPENID,
-  }).get()
+    //有返回 adminUserInfo(date)
+    if (cur_user === []) {
 
-  return {
-    is_reg: true,
-    jbxtInfo: jbxtInfo,
-    adminUserInfo: {
-      openid: OPENID,
-      date: user.data[0].now_date,
-      name: user.data[0].name
-    },
-  }
+        return {
+            is_reg: false,
+            jbxtInfo: jbxtInfo,
+            adminUserInfo: {
+                openid: OPENID,
+            },
+        }
+    }
+
+
+    return {
+        is_reg: true,
+        jbxtInfo: jbxtInfo,
+        adminUserInfo: {
+            openid: OPENID,
+            name: cur_user.data[0].name
+        },
+    }
 
 }
