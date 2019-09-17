@@ -1,7 +1,7 @@
 <scroll-view scroll-y class="scrollPage">
     <view class="UCenter-bg" style="background-image: url(/images/img.png);">
         <image src="/images/logo.png" class="png" mode="widthFix"></image>
-        <view class="text-xl">淮安市公安局指挥中心
+        <view class="text-xl">{{now_date}}
             <text class="text-df"></text>
         </view>
         <view class="margin-top-sm">

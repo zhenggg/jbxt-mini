@@ -17,6 +17,7 @@ Component({
    * 组件的初始数据
    */
   data: {
+    now_date: '',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     userJobs: app.globalData.userJobs,
@@ -325,7 +326,11 @@ Component({
 
   lifetimes: {
     // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
-    attached: function () { },
+    attached: function () {
+      this.setData({
+        now_date: getApp().globalData.now_date,
+      })
+    },
     moved: function () { },
     detached: function () { },
   },

@@ -22,12 +22,30 @@ Page({
             content: '确认选择值班类型？',
             success(res) {
                 if (res.confirm) {
+                    console.log(e.detail.value);
+                    wx.cloud.callFunction({
+                        name: 'duty',
+                        data: { date:app.globalData.now_date, post: e.detail.value },
+
+                    }).then(res => {
+                        app.globalData.jbxtInfo = res.result;
+                        wx.showToast({
+                            title: '选择值班成功',
+                            icon: 'success',
+                            duration: 1000
+                        })
+                        wx.navigateTo({
+                            url: '/pages/more/home/home',
+                        })
+                    }).catch(err => {
+                        console.error('[云函数] [login] 调用失败', err)
+                    })
                 } else if (res.cancel) {
                 }
             }
         })
-        console.log(e.detail.value);
-        return false;
+
+
     },
     onLoad: function () {
 
