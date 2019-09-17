@@ -35,7 +35,7 @@ Page({
                             duration: 1000
                         })
                         wx.navigateTo({
-                            url: '/pages/more/home/home',
+                            url: '/pages/index/index',
                         })
                     }).catch(err => {
                         console.error('[云函数] [login] 调用失败', err)

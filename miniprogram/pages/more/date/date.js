@@ -17,10 +17,15 @@ Page({
     });
   },
   DateChange(e) {
+    wx.showLoading({
+      title: '切换中...',
+      mask: true,
+    })
     this.setData({
       date: e.detail.value
     });
     app.initSys(e.detail.value,'/pages/index/index');
+    wx.hideLoading()
   },
 
 });

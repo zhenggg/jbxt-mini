@@ -46,16 +46,16 @@
                         </view>
                     </view>
                     <view class="action">
-                        <view wx:if="{{item.jb==1}}" class="cu-avatar radius margin-left sm bg-green">
+                        <view wx:if="{{item.jb==1}}" class=" {{item.log.jb?'bg-green':''}} cu-avatar radius margin-left sm" >
                             <text>技</text>
                         </view>
-                        <view wx:if="{{item.dp==1}}" class="cu-avatar radius margin-left sm">
+                        <view wx:if="{{item.dp==1}}" class=" {{item.log.dp?'bg-green':''}} cu-avatar radius margin-left sm">
                             <text>屏</text>
                         </view>
-                        <view wx:if="{{item.qw==1}}" class="cu-avatar radius margin-left sm">
+                        <view wx:if="{{item.qw==1}}" class=" {{item.log.qw?'bg-green':''}} cu-avatar radius margin-left sm">
                             <text>勤</text>
                         </view>
-                        <view wx:if="{{item.dd==1}}" class="cu-avatar radius margin-left sm">
+                        <view wx:if="{{item.dd==1}}" class=" {{item.log.dd?'bg-green':''}} cu-avatar radius margin-left sm">
                             <text>点</text>
                         </view>
                     </view>
