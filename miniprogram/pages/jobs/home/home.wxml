@@ -1,5 +1,5 @@
 <scroll-view scroll-y class="scrollPage">
-    <view class="UCenter-bg" style="background-image: url(/images/img.png);">
+    <view class="UCenter-bg">
         <image src="/images/logo.png" class="png" mode="widthFix"></image>
         <view class="text-xl">{{now_date}}
             <text class="text-df"></text>
