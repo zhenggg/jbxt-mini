@@ -13,9 +13,8 @@ Page({
     let res = db.collection('users').get()
     .then(res => {
         console.log(res)
-        console.log(res.list)
         this.setData({
-          pickerUsers: res.list
+          pickerUsers: res.data
         })
       })
   },
@@ -39,9 +38,15 @@ Page({
       success: res => {
         console.log('call [云函数] [reg]')
 
-        if (res.result.status != 1) {
-          console.log('call [云函数] [reg] fail')
+        if (res.result.err === 1) {
+          wx.showToast({
+            title:'该人员已经绑定微信账号',
+            icon:'none'
+          });
         } else {
+          wx.showToast({
+            title:'选择成功',
+          });
           wx.navigateTo({
             url: '../index/index',
           })

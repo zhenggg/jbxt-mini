@@ -8,7 +8,16 @@ exports.main = async (event, context) => {
   console.log('zhenggg-login:s')
   let id =  event.id;
   let { OPENID } = cloud.getWXContext() // 这里获取到的 openId 和 appId 是可信的
+  let user = await db.collection('users').where({
+    _id: id,
+    openid: '',
+  }).count();
 
+  if (user.total === 0) {
+    return {
+      err: 1,
+    }
+  }
   try {
     await db.collection('users').where({
       _id: id,
@@ -18,8 +27,7 @@ exports.main = async (event, context) => {
         },
     })
     return {
-      event,
-      status: 1,
+      err: 0,
     }
   } catch (e) {
     console.error(e)

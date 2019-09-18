@@ -42,14 +42,10 @@ App({
       data: { date: this.globalData.now_date },
       success: res => {
         console.log(res.result);
-        this.globalData.adminUserInfo = res.result.adminUserInfo;
         this.globalData.jbxtInfo = res.result.jbxtInfo;
 
-        if (!res.result.is_reg) {
-
-          wx.navigateTo({
-            url: '../reg/reg',
-          })
+        if (res.result.is_reg) {
+          this.globalData.adminUserInfo = res.result.adminUserInfo;
         }
 
         if(navigateTo) {

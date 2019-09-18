@@ -32,6 +32,18 @@
         点调</view>
     </view>
   </view>
+
+  <view wx:if="{{adminUserInfo.openid == ''}}" class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
+
+    <view class="cu-item arrow">
+      <navigator class="content" url="/pages/reg/reg" hover-class="none">
+        <text class="cuIcon-edit text-red"></text>
+        <text class="text-grey">绑定值班人员</text>
+      </navigator>
+    </view>
+
+  </view>
+
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
 
     <view class="cu-item arrow">

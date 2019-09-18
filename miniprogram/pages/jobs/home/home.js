@@ -414,12 +414,22 @@ Component({
 
                 if (res.result.err === 0) {
                     wx.showToast({
-                        title: '更新数据...',
+                        title: '签名成功...',
                         icon: 'success',
                         duration: 500
                     })
                     this.setJobs()
+
                 }
+
+                if (res.result.err === 2) {
+                    wx.showToast({
+                        title: '没有选择该值班类型',
+                        icon: 'none',
+                    })
+                }
+
+                this.hideModal()
             }).catch(err => {
                 console.error('[云函数] [login] 调用失败', err)
             })

@@ -49,9 +49,7 @@ Page({
        
       } else {
         getApp().globalData.adminUserInfo.openid = res.result.openid
-        wx.navigateTo({
-          url: '../reg/reg',
-        })
+
       }
       }).catch(err => {
         console.error('[云函数] [login] 调用失败', err)
