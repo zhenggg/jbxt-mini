@@ -58,7 +58,7 @@ Page({
   onShareAppMessage() {
     return {
       title: '技保小程序',
-      imageUrl: '/images/share.jpg',
+      imageUrl: '/images/share.png',
       path: '/pages/index/index'
     }
   },

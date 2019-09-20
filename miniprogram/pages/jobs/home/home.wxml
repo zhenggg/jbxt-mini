@@ -23,8 +23,43 @@
                     <view class="title">{{modelTitle}}</view>
                     <textarea maxlength="-1" disabled="disabled" placeholder="{{modelPlaceholder}}"></textarea>
                 </view>
+                <view wx:if="{{adminUserInfo.can_sign == '1'}}" >
+                    <view class="cu-bar bg-white margin-top">
+                        <view class="action">
+                            图片上传
+                        </view>
+                        <view class="action">
+                            {{imgList.length}}/1
+                        </view>
+                    </view>
+                    <view class="cu-form-group">
+                        <view class="grid col-4 grid-square flex-sub">
+                            <view class="bg-img" wx:for="{{imgList}}" wx:key="{{index}}" bindtap="ViewImage" data-url="{{imgList[index]}}">
+                                <image src='{{imgList[index]}}' mode='aspectFill'></image>
+                                <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
+                                    <text class="cuIcon-close"></text>
+                                </view>
+                            </view>
+                            <view class="solids" bindtap="ChooseImage" wx:if="{{imgList.length<1}}">
+                                <text class="cuIcon-cameraadd"></text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view wx:else>
+                    <swiper class="screen-swiper square-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+                        <swiper-item wx:for="{{swiperList}}" wx:key>
+                            <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+                            <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>
+                        </swiper-item>
+                    </swiper>
+<!--                    <image class="bg-img" src="cloud://jbxt.6a62-jbxt-1300085154/2019-09-20/okWUY44y7fc801_ZUgjb7BvmJ9-0-1.jpg" style="height:300px;">-->
+<!--                    </image>-->
+                </view>
+
             </view>
-            <view class="cu-bar bg-white justify-center">
+
+            <view wx:if="{{adminUserInfo.can_sign == '1'}}" class="cu-bar bg-white justify-center">
                 <view class="action">
                     <button class="cu-btn bg-green" bindtap="sign" data-id="{{modelId}}">签名</button>
                 </view>

@@ -59,7 +59,8 @@ exports.main = async (event, context) => {
         jbxtInfo: jbxtInfo,
         adminUserInfo: {
             openid: OPENID,
-            name: cur_user.data[0].name
+            name: cur_user.data[0].name,
+            can_sign: cur_user.data[0].can_sign
         },
     }
 

@@ -6,7 +6,7 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   let {OPENID} = cloud.getWXContext();// 这里获取到的 openId 和 appId 是可信的
-  let {date,job_id,jbxtInfo} =  event;
+  let {date,job_id,jbxtInfo,img_path} =  event;
 
 
   const cur_user = await db.collection('users').where({
@@ -353,6 +353,7 @@ exports.main = async (event, context) => {
           post: posts[i]
         }).update({
           data: {
+            img_path:img_path,
             user_id: cur_user.data[0]._id
           },
         })
@@ -363,6 +364,7 @@ exports.main = async (event, context) => {
         await db.collection('sign_logs').add({
           data: {
             date: date,
+            img_path:img_path,
             job_id: job_id,
             post: posts[i],
             sign_time:new Date(),

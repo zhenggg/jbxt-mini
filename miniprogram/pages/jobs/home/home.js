@@ -19,7 +19,17 @@ Component({
         StatusBar: app.globalData.StatusBar,
         CustomBar: app.globalData.CustomBar,
         userJobs: app.globalData.userJobs,
-        jobsInfo: [{
+        adminUserInfo: app.globalData.adminUserInfo,
+        imgList: [],
+        swiperList: [
+        //     {
+        //     id: 0,
+        //     type: 'image',
+        //     url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg'
+        // }
+        ],
+        jobsInfo: [
+            {
             id: 1,
             start: "00:00:00",
             end: "09:00:00",
@@ -334,14 +344,35 @@ Component({
         detached: function () {
         },
     },
-
+    onLoad() {
+    },
     methods: {
         showModal(e) {
             this.setData({
+                adminUserInfo: getApp().globalData.adminUserInfo,
                 modalName: e.currentTarget.dataset.target,
                 modelTitle: e.currentTarget.dataset.time_description,
                 modelPlaceholder: e.currentTarget.dataset.name,
-                modelId: e.currentTarget.dataset.id
+                modelId: e.currentTarget.dataset.id,
+                swiperList: []
+            })
+            var that = this;
+            const db = wx.cloud.database()
+            // 查询当前用户所有的 counters
+            db.collection('sign_logs').where({
+                date: this.data.now_date,
+                job_id: e.currentTarget.dataset.id,
+            }).get({
+              success: res => {
+                  var swiperList = [];
+                  for(var i=0,l=res.data.length;i<l;i++){
+                      swiperList.push({id: i,type: 'image',url:res.data[i].img_path})
+                  }
+                  this.setData({
+                      swiperList:swiperList,
+                  })
+                  that.towerSwiper('swiperList');
+              }
             })
         },
         hideModal(e) {
@@ -400,38 +431,114 @@ Component({
                 });
                 return false;
             }
-            wx.cloud.callFunction({
-                name: 'sign',
-                data: {
-                    date: getApp().globalData.now_date,
-                    job_id: e.currentTarget.dataset.id,
-                    jbxtInfo: getApp().globalData.jbxtInfo,
-                },
 
-            }).then(res => {
-                console.error(res.result);
+            if (selected !== true) {
+                wx.showToast({
+                    title: '请先选择值班类型',
+                    icon:'none'
+                });
+                return false;
+            }
+            if (this.data.imgList.length !== 0) {
+                wx.showLoading({
+                    title: '上传中',
+                })
 
+                const filePath = this.data.imgList[0]
 
-                if (res.result.err === 0) {
-                    wx.showToast({
-                        title: '签名成功...',
-                        icon: 'success',
-                        duration: 500
-                    })
-                    this.setJobs()
+                // 上传图片
+                const cloudPath = getApp().globalData.now_date + '/' + getApp().globalData.adminUserInfo.openid
+                    + '-' + e.currentTarget.dataset.id
+                    + filePath.match(/\.[^.]+?$/)[0]
+                wx.cloud.uploadFile({
+                    cloudPath,
+                    filePath,
+                    success: res => {
+                        console.log('[上传文件] 成功：', res)
+                        wx.cloud.callFunction({
+                            name: 'sign',
+                            data: {
+                                date: getApp().globalData.now_date,
+                                job_id: e.currentTarget.dataset.id,
+                                jbxtInfo: getApp().globalData.jbxtInfo,
+                                img_path: res.fileID,
+                            },
 
+                        }).then(res => {
+                            console.error(res.result);
+                            if (res.result.err === 0) {
+                                wx.showToast({
+                                    title: '签名成功...',
+                                    icon: 'success',
+                                    duration: 500
+                                })
+                                this.setJobs()
+
+                            }
+
+                            if (res.result.err === 2) {
+                                wx.showToast({
+                                    title: '没有选择该值班类型',
+                                    icon: 'none',
+                                })
+                            }
+
+                            this.hideModal()
+                        }).catch(err => {
+                            console.error('[云函数] [login] 调用失败', err)
+                        })
+                    },
+                    fail: e => {
+                        console.error('[上传文件] 失败：', e)
+                        wx.showToast({
+                            icon: 'none',
+                            title: '上传失败',
+                        })
+                    },
+                    complete: () => {
+                        wx.hideLoading()
+                        this.setData({
+                            imgList: []
+                        })
+                    }
+                })
+            } else {
+                wx.showToast({
+                    title: '请上传照片',
+                    icon:'none'
+                });
+                return false;
+            }
+
+        },
+        ChooseImage() {
+            wx.chooseImage({
+                count: 1, //默认9
+                sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'],
+                success: (res) => {
+                    if (this.data.imgList.length != 0) {
+                        this.setData({
+                            imgList: this.data.imgList.concat(res.tempFilePaths)
+                        })
+                    } else {
+                        this.setData({
+                            imgList: res.tempFilePaths
+                        })
+                    }
                 }
-
-                if (res.result.err === 2) {
-                    wx.showToast({
-                        title: '没有选择该值班类型',
-                        icon: 'none',
-                    })
-                }
-
-                this.hideModal()
-            }).catch(err => {
-                console.error('[云函数] [login] 调用失败', err)
+            });
+        },
+        ViewImage(e) {
+            wx.previewImage({
+                urls: this.data.imgList,
+                current: e.currentTarget.dataset.url
+            });
+        },
+        DelImg(e) {
+            this.data.imgList.splice(e.currentTarget.dataset.index, 1);
+            this.setData({
+                imgList: this.data.imgList
             })
         }
     }
